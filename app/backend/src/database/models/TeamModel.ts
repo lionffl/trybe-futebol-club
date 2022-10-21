@@ -8,9 +8,10 @@ class TeamModel extends Model {
 
 TeamModel.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false,
   },
   teamName: DataTypes.STRING,
 }, {

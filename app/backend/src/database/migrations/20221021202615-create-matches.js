@@ -5,15 +5,17 @@ module.exports = {
     await queryInterface.createTable('matches', { 
       id: { 
         type: Sequelize.INTEGER,
-        primaryKey: true 
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
       },
       home_team_goals: Sequelize.INTEGER,
       home_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'teams', key: 'id'}      
       },
       away_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'teams', key: 'id'}      
       },
       away_team_goals: Sequelize.INTEGER,

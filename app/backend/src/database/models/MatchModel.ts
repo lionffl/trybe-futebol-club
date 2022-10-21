@@ -13,9 +13,10 @@ class MatchModel extends Model {
 
 MatchModel.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false,
   },
   homeTeam: DataTypes.STRING,
   homeTeamGoals: DataTypes.INTEGER,

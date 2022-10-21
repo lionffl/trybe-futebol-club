@@ -5,7 +5,9 @@ module.exports = {
     await queryInterface.createTable('teams', { 
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
       },
       team_name: Sequelize.STRING, 
     }, {
