@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true 
       },
       home_team_goals: Sequelize.INTEGER,
+      home_team: {
+        type: Sequelize.STRING,
+        references: { model: 'teams', key: 'id'}      
+      },
+      away_team: {
+        type: Sequelize.STRING,
+        references: { model: 'teams', key: 'id'}      
+      },
       away_team_goals: Sequelize.INTEGER,
       in_progress: Sequelize.BOOLEAN
     }, {
