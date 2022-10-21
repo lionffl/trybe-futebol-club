@@ -18,9 +18,9 @@ MatchModel.init({
     primaryKey: true,
   },
   homeTeam: DataTypes.STRING,
-  homeTeamGoals: DataTypes.STRING,
+  homeTeamGoals: DataTypes.INTEGER,
   awayTeam: DataTypes.STRING,
-  awayTeamGoals: DataTypes.STRING,
+  awayTeamGoals: DataTypes.INTEGER,
   inProgress: DataTypes.BOOLEAN,
 }, {
   underscored: true,
