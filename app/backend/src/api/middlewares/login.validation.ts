@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
 import { compareSync } from 'bcryptjs';
 import ILogin from '../interfaces/Login';
 import userService from '../services/login.service';
+import Middleware from '../interfaces/Middleware';
 
-const loginValidation = {
+const loginValidation: Middleware = {
 
-  validateFields(req: Request, res: Response, next: NextFunction): void {
+  validateFields(req, res, next) {
     const { email, password } = req.body as ILogin;
     if (!email || !password) {
       res.status(400).json({ message: 'All fields must be filled' });
@@ -13,7 +13,8 @@ const loginValidation = {
       next();
     }
   },
-  async validateCredentials(req: Request, res: Response, next: NextFunction) {
+
+  async validateCredentials(req, res, next) {
     const { email, password } = req.body as ILogin;
     try {
       const user = await userService.find(email);
