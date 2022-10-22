@@ -1,4 +1,4 @@
-import UserModel from '../database/models/UserModel';
+import UserModel from '../../database/models/UserModel';
 
 const userService = {
   async find(email: string) {

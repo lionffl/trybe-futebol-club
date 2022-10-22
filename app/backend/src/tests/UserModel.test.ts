@@ -3,7 +3,7 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
-import UserModel from '../api/database/models/UserModel';
+import UserModel from '../database/models/UserModel';
 import { validLogin, validUser, invalidLoginPassword, invalidLoginEmail } from './mocks';
 import { Response } from 'superagent';
 
