@@ -21,6 +21,7 @@ const loginValidation: IMiddleware = {
       if (user === null || !compareSync(password, user.password)) {
         res.status(401).json({ message: 'Incorrect email or password' });
       } else {
+        res.locals.user = user;
         next();
       }
     } catch (error) {
