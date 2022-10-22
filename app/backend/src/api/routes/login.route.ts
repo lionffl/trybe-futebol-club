@@ -3,11 +3,11 @@ import loginValidation from '../middlewares/login.validation';
 
 const {
   validateFields,
-  // validateCredentials,
+  validateCredentials,
 } = loginValidation;
 
 const loginRoute = Router();
 
-loginRoute.post('/', validateFields);
+loginRoute.post('/', validateFields, validateCredentials);
 
 export default loginRoute;
