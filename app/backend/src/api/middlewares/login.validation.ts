@@ -1,9 +1,9 @@
 import { compareSync } from 'bcryptjs';
 import ILogin from '../interfaces/Login';
 import userService from '../services/login.service';
-import Middleware from '../interfaces/Middleware';
+import IMiddleware from '../interfaces/Middleware';
 
-const loginValidation: Middleware = {
+const loginValidation: IMiddleware = {
 
   validateFields(req, res, next) {
     const { email, password } = req.body as ILogin;
