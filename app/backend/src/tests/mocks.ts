@@ -13,9 +13,17 @@ export const validLogin = {
 export const invalidLoginPassword = {
   email: 'admin@admin.com',
   password: '1231321r345235145'
-}
+};
 
 export const invalidLoginEmail = {
   email: 'lionffl@gmail.com',
   password: '1231321r345235145'
-}
+};
+
+export const passwordMissing = {
+  email: 'lionffl@gmail.com'
+};
+
+export const emailMissing = {
+  password: '12312231231231'
+};
