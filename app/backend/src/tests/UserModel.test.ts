@@ -79,29 +79,29 @@ context('1 - Route /login tests', () => {
   });
 });
 
-// context('2 - Route /login/validate tests', () => {
-//   let httpResponse: Response;
+context('2 - Route /login/validate tests', () => {
+  let httpResponse: Response;
 
-//   before(() => {
-//     sinon.stub(jwt, 'verify').returns({ data: { email: validUser.email } } as never);
-//     sinon.stub(UserModel, 'findOne').resolves(validUser.email as any);
-//   });
+  before(() => {
+    sinon.stub(jwt, 'verify').returns({ data: { email: validUser.email } } as any);
+    sinon.stub(UserModel, 'findOne').resolves(validUser as any);
+  });
 
-//   after(() => {
-//     (jwt.verify as sinon.SinonStub).restore();
-//     (UserModel.findOne as sinon.SinonStub).restore();
-//   });
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (UserModel.findOne as sinon.SinonStub).restore();
+  });
 
-//   describe('When the request is valid, API', () => {
-//     it('should response with 200 status code and informs the user`s role', async () => {
-//       httpResponse = await chai
-//         .request(app)
-//         .get('/login/validate')
-//         .set('Authorization', '')
-//         .send();
-//       expect(httpResponse.status).to.equal(200)
-//       expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
-//     });
-//   })
-// });
+  describe('When the request is valid, API', () => {
+    it('should response with 200 status code and informs the user`s role', async () => {
+      httpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', 'hash')
+        .send();
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
+    });
+  })
+});
 

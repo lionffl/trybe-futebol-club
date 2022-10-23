@@ -7,11 +7,11 @@ const {
   validateCredentials,
 } = loginValidation;
 
-const { login, validate } = loginController;
+const { login, authenticate } = loginController;
 
 const loginRoute = Router();
 
 loginRoute.post('/', validateFields, validateCredentials, login);
-loginRoute.get('/validate', validate);
+loginRoute.get('/validate', authenticate);
 
 export default loginRoute;

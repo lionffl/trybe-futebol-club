@@ -15,10 +15,10 @@ const loginController: IController = {
       }
     }
   },
-  async validate(req, res) {
+  async authenticate(req, res) {
     const token = req.header('Authorization');
     if (!token) {
-      res.status(402).json({ message: 'Token not found' });
+      res.status(401).json({ message: 'Token not found' });
     } else {
       try {
         const decoded = jwt.verify(token, 'jwt_secret') as jwt.JwtPayload;
@@ -26,7 +26,7 @@ const loginController: IController = {
         if (!user) {
           res.status(401).json({ message: 'Expired or invalid token' });
         }
-        res.status(400).json({ role: user?.role });
+        res.status(200).json({ role: user?.role });
       } catch (err) {
         res.status(401).json({ message: 'Expired or invalid token' });
       }
