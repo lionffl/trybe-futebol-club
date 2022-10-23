@@ -77,3 +77,26 @@ context('1 - Route /login tests', () => {
     });
   });
 });
+
+context('2 - Route /login/validate tests', () => {
+  let httpResponse: Response;
+
+  before(() => {
+    sinon.stub(UserModel, 'findOne').resolves(validUser as UserModel);
+  });
+
+  after(() => {
+    (UserModel.findOne as sinon.SinonStub).restore();
+  });
+
+  describe('When the request is valid, API', () => {
+    it('should response with 200 status code and informs the user`s role', async () => {
+      httpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+
+      expect(httpResponse.status).to.equal(200)
+      expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
+    });
+  })
+});
