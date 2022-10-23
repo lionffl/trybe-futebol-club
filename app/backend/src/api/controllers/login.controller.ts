@@ -1,4 +1,4 @@
-import UserModel from '../../database/models/UserModel';
+import * as jwt from 'jsonwebtoken';
 import getToken from '../../helpers/getToken';
 import IController from '../interfaces/Controller';
 import userService from '../services/login.service';
@@ -15,14 +15,20 @@ const loginController: IController = {
       }
     }
   },
-  async validate(_req, res) {
-    try {
-      const { email } = res.locals.user;
-      const user = await userService.find(email) as UserModel;
-      res.status(200).json({ role: user.role });
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json({ message: error.message });
+  async validate(req, res) {
+    const token = req.header('Authorization');
+    if (!token) {
+      res.status(402).json({ message: 'Token not found' });
+    } else {
+      try {
+        const decoded = jwt.verify(token, 'jwt_secret') as jwt.JwtPayload;
+        const user = await userService.find(decoded.data.email);
+        if (!user) {
+          res.status(401).json({ message: 'Expired or invalid token' });
+        }
+        res.status(400).json({ role: user?.role });
+      } catch (err) {
+        res.status(401).json({ message: 'Expired or invalid token' });
       }
     }
   },
