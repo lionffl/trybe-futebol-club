@@ -15,6 +15,20 @@ const matchesService = {
     });
     return matches;
   },
+  async getByStatus(inProgress: boolean) {
+    const matches = await MatchModel.findAll({
+      include: [{
+        model: TeamModel,
+        as: 'teamHome',
+      },
+      {
+        model: TeamModel,
+        as: 'teamAway',
+      }],
+      where: { inProgress },
+    });
+    return matches;
+  },
 };
 
 export default matchesService;
