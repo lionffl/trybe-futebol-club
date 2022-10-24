@@ -6,7 +6,7 @@ config();
 const secret = process.env.JWT_SECRET || 'jwt_secret';
 
 const jwtConfig: SignOptions = {
-  expiresIn: '5d',
+  expiresIn: '15d',
   algorithm: 'HS256',
 };
 

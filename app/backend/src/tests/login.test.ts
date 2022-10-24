@@ -12,13 +12,12 @@ import {
   invalidLoginEmail,
   passwordMissing,
   emailMissing,
-} from './mocks';
+} from './mocks/login.mock';
 import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
 
 context('1 - Route /login tests', () => {
   let httpResponse: Response;
@@ -104,4 +103,3 @@ context('2 - Route /login/validate tests', () => {
     });
   })
 });
-

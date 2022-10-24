@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import getToken from '../../helpers/getToken';
-import IController from '../interfaces/Controller';
+import IController from '../../interfaces/Controller';
 import userService from '../services/login.service';
 
 const loginController: IController = {
