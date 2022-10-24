@@ -18,6 +18,7 @@ import { Response } from 'superagent';
 chai.use(chaiHttp);
 
 const { expect } = chai;
+const should = chai.should();
 
 context('1 - Route /login tests', () => {
   let httpResponse: Response;
@@ -34,7 +35,7 @@ context('1 - Route /login tests', () => {
         .request(app)
         .post('/login').send(validLogin)
 
-      expect(httpResponse.status).to.equal(200)
+      should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.have.property('token');
     });
   })
@@ -45,7 +46,7 @@ context('1 - Route /login tests', () => {
         .request(app)
         .post('/login').send(emailMissing)
 
-      expect(httpResponse.status).to.equal(400)
+      should.equal(httpResponse.status, 400);
       expect(httpResponse.body).to.be.deep.equal({ message: 'All fields must be filled' })
     });
 
@@ -54,7 +55,7 @@ context('1 - Route /login tests', () => {
         .request(app)
         .post('/login').send(passwordMissing)
 
-      expect(httpResponse.status).to.equal(400)
+      should.equal(httpResponse.status, 400);
       expect(httpResponse.body).to.be.deep.equal({ message: 'All fields must be filled' })
     });
 
@@ -63,7 +64,7 @@ context('1 - Route /login tests', () => {
         .request(app)
         .post('/login').send(invalidLoginEmail)
 
-      expect(httpResponse.status).to.equal(401)
+      should.equal(httpResponse.status, 401);
       expect(httpResponse.body).to.be.deep.equal({ message: 'Incorrect email or password' })
     });
 
@@ -72,7 +73,7 @@ context('1 - Route /login tests', () => {
         .request(app)
         .post('/login').send(invalidLoginPassword)
 
-      expect(httpResponse.status).to.equal(401)
+      should.equal(httpResponse.status, 401);
       expect(httpResponse.body).to.be.deep.equal({ message: 'Incorrect email or password' })
     });
   });
@@ -98,7 +99,7 @@ context('2 - Route /login/validate tests', () => {
         .get('/login/validate')
         .set('Authorization', 'hash')
         .send();
-      expect(httpResponse.status).to.equal(200)
+      should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
     });
   })

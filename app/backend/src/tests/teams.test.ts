@@ -12,18 +12,19 @@ import { Response } from 'superagent';
 chai.use(chaiHttp);
 
 const { expect } = chai;
+const should = chai.should();
 
 context('3 - Route /teams tests', () => {
   let httpResponse: Response;
 
   describe('When the request is valid, API', () => {
-    it('should response with 200 status code and a array of teams', async () => {
+    it('should response with 200 status code and send an array of teams', async () => {
       sinon.stub(TeamModel, 'findAll').resolves(teamsMock as unknown as TeamModel[]);
       httpResponse = await chai
         .request(app)
         .get('/teams');
 
-      expect(httpResponse.status).to.equal(200)
+      should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.be.deep.equal(teamsMock);
       (TeamModel.findAll as sinon.SinonStub).restore()
     });
@@ -36,7 +37,7 @@ context('3 - Route /teams tests', () => {
         .request(app)
         .get('/teams');
 
-      expect(httpResponse.status).to.equal(500)
+      should.equal(httpResponse.status, 500);
       expect(httpResponse.body).to.be.deep.equal({ message: 'Unexpected error.' });
       (TeamModel.findAll as sinon.SinonStub).restore()
     });
@@ -53,7 +54,7 @@ context('4 - Route /teams/:id tests', () => {
         .request(app)
         .get('/teams/1');
 
-      expect(httpResponse.status).to.equal(200)
+      should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.be.deep.equal(teamMock);
       (TeamModel.findByPk as sinon.SinonStub).restore()
     });
@@ -66,7 +67,7 @@ context('4 - Route /teams/:id tests', () => {
         .request(app)
         .get('/teams');
 
-      expect(httpResponse.status).to.equal(500)
+      should.equal(httpResponse.status, 500);
       expect(httpResponse.body).to.be.deep.equal({ message: 'Unexpected error.' });
     });
 
@@ -77,7 +78,7 @@ context('4 - Route /teams/:id tests', () => {
         .request(app)
         .get('/teams/9999');
 
-      expect(httpResponse.status).to.equal(404)
+      should.equal(httpResponse.status, 404);
       expect(httpResponse.body).to.be.deep.equal({ message: 'Team not found.' });
       (TeamModel.findByPk as sinon.SinonStub).restore()
     });
