@@ -9,7 +9,6 @@ import {
 } from './mocks/teams.mock';
 import { Response } from 'superagent';
 import { GENERIC_ERROR, NOT_FOUND_ERROR } from '../helpers/constants';
-import { NOTFOUND } from 'dns';
 
 chai.use(chaiHttp);
 
