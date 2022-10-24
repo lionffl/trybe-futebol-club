@@ -14,6 +14,7 @@ import {
   emailMissing,
 } from './mocks/login.mock';
 import { Response } from 'superagent';
+import { BAD_REQUEST, INVALID_CREDENTIALS } from '../helpers/constants';
 
 chai.use(chaiHttp);
 
@@ -47,7 +48,7 @@ context('1 - Route /login tests', () => {
         .post('/login').send(emailMissing)
 
       should.equal(httpResponse.status, 400);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'All fields must be filled' })
+      expect(httpResponse.body).to.be.deep.equal(BAD_REQUEST)
     });
 
     it('should response with 400 status code if password is missing', async () => {
@@ -56,7 +57,7 @@ context('1 - Route /login tests', () => {
         .post('/login').send(passwordMissing)
 
       should.equal(httpResponse.status, 400);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'All fields must be filled' })
+      expect(httpResponse.body).to.be.deep.equal(BAD_REQUEST)
     });
 
     it('should response with 401 status code if email is invalid', async () => {
@@ -65,7 +66,7 @@ context('1 - Route /login tests', () => {
         .post('/login').send(invalidLoginEmail)
 
       should.equal(httpResponse.status, 401);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'Incorrect email or password' })
+      expect(httpResponse.body).to.be.deep.equal(INVALID_CREDENTIALS)
     });
 
     it('should response with 401 status code if password is invalid', async () => {
@@ -74,7 +75,7 @@ context('1 - Route /login tests', () => {
         .post('/login').send(invalidLoginPassword)
 
       should.equal(httpResponse.status, 401);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'Incorrect email or password' })
+      expect(httpResponse.body).to.be.deep.equal(INVALID_CREDENTIALS)
     });
   });
 });

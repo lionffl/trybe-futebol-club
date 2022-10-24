@@ -2,13 +2,14 @@ import { compareSync } from 'bcryptjs';
 import ILogin from '../../interfaces/Login';
 import userService from '../services/login.service';
 import IMiddleware from '../../interfaces/Middleware';
+import { BAD_REQUEST, GENERIC_ERROR, INVALID_CREDENTIALS } from '../../helpers/constants';
 
 const loginValidation: IMiddleware = {
 
   validateFields(req, res, next) {
     const { email, password } = req.body as ILogin;
     if (!email || !password) {
-      res.status(400).json({ message: 'All fields must be filled' });
+      res.status(400).json(BAD_REQUEST);
     } else {
       next();
     }
@@ -19,13 +20,13 @@ const loginValidation: IMiddleware = {
     try {
       const user = await userService.find(email);
       if (user === null || !compareSync(password, user.password)) {
-        res.status(401).json({ message: 'Incorrect email or password' });
+        res.status(401).json(INVALID_CREDENTIALS);
       } else {
         res.locals.user = user;
         next();
       }
     } catch (error) {
-      res.status(500).json({ message: 'Unexpected error' });
+      res.status(500).json(GENERIC_ERROR);
     }
   },
 };

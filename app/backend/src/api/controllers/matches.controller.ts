@@ -1,3 +1,4 @@
+import { GENERIC_ERROR } from '../../helpers/constants';
 import convertoToBoolean from '../../helpers/convertToBoolean';
 import IController from '../../interfaces/Controller';
 import matchesService from '../services/matches.service';
@@ -12,7 +13,7 @@ const matchesController: IController = {
         res.status(200).json(matches);
       } catch (error) {
         if (error instanceof Error) {
-          res.status(500).json({ message: 'Unexpected error. Try again or contact support' });
+          res.status(500).json(GENERIC_ERROR);
         }
       }
     }
@@ -25,7 +26,7 @@ const matchesController: IController = {
       res.status(200).json(matches);
     } catch (error) {
       if (error instanceof Error) {
-        res.status(500).json({ message: 'Unexpected error. Try again or contact support' });
+        res.status(500).json(GENERIC_ERROR);
       }
     }
   },

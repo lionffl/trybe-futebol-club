@@ -8,6 +8,8 @@ import {
   teamsMock, teamMock
 } from './mocks/teams.mock';
 import { Response } from 'superagent';
+import { GENERIC_ERROR, NOT_FOUND_ERROR } from '../helpers/constants';
+import { NOTFOUND } from 'dns';
 
 chai.use(chaiHttp);
 
@@ -38,7 +40,7 @@ context('3 - Route /teams tests', () => {
         .get('/teams');
 
       should.equal(httpResponse.status, 500);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'Unexpected error.' });
+      expect(httpResponse.body).to.be.deep.equal(GENERIC_ERROR);
       (TeamModel.findAll as sinon.SinonStub).restore()
     });
   })
@@ -68,7 +70,7 @@ context('4 - Route /teams/:id tests', () => {
         .get('/teams');
 
       should.equal(httpResponse.status, 500);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'Unexpected error.' });
+      expect(httpResponse.body).to.be.deep.equal(GENERIC_ERROR);
     });
 
     it('should response with 404 status code if team id is invalid', async () => {
@@ -79,7 +81,7 @@ context('4 - Route /teams/:id tests', () => {
         .get('/teams/9999');
 
       should.equal(httpResponse.status, 404);
-      expect(httpResponse.body).to.be.deep.equal({ message: 'Team not found.' });
+      expect(httpResponse.body).to.be.deep.equal(NOT_FOUND_ERROR);
       (TeamModel.findByPk as sinon.SinonStub).restore()
     });
   })
