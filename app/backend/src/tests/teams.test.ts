@@ -60,11 +60,7 @@ context('4 - Route /teams/:id tests', () => {
   })
 
   describe('When the request is invalid, API', () => {
-
-    afterEach(() => (TeamModel.findByPk as sinon.SinonStub).restore());
-
     it('should response with 500 status code if an error is thrown', async () => {
-      (TeamModel.findByPk as sinon.SinonStub).restore()
       sinon.stub(TeamModel, 'findByPk').throws();
       httpResponse = await chai
         .request(app)
@@ -75,13 +71,15 @@ context('4 - Route /teams/:id tests', () => {
     });
 
     it('should response with 404 status code if team id is invalid', async () => {
-      sinon.stub(TeamModel, 'findByPk').resolves();
+      (TeamModel.findByPk as sinon.SinonStub).restore()
+      sinon.stub(TeamModel, 'findByPk').resolves(null);
       httpResponse = await chai
         .request(app)
         .get('/teams/9999');
 
       expect(httpResponse.status).to.equal(404)
       expect(httpResponse.body).to.be.deep.equal({ message: 'Team not found.' });
+      (TeamModel.findByPk as sinon.SinonStub).restore()
     });
   })
 });

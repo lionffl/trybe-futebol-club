@@ -12,6 +12,21 @@ const teamsController: IController = {
       }
     }
   },
+
+  async getTeamById(req, res) {
+    const { id } = req.params;
+    try {
+      const team = await teamsService.getById(+id);
+      if (team === null) res.status(404).json({ message: 'Team not found.' });
+      else {
+        res.status(200).json(team);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ message: 'Unexpected error.' });
+      }
+    }
+  },
 };
 
 export default teamsController;
