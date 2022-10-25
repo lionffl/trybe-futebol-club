@@ -1,8 +1,8 @@
 import { compareSync } from 'bcryptjs';
-import ILogin from '../../interfaces/Login';
-import userService from '../services/login.service';
-import IMiddleware from '../../interfaces/Middleware';
-import { BAD_REQUEST, INVALID_CREDENTIALS } from '../../helpers/constants';
+import ILogin from '../../../interfaces/Login';
+import userService from '../../services/login.service';
+import IMiddleware from '../../../interfaces/Middleware';
+import { BAD_REQUEST, INVALID_CREDENTIALS } from '../../../helpers/constants';
 
 const loginValidation: IMiddleware = {
 

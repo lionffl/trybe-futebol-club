@@ -12,7 +12,7 @@ const loginController: IController = {
     res.status(200).json({ token });
   },
 
-  async authenticate(req, res) {
+  async validate(req, res) {
     const token = req.header('Authorization');
     if (!token) {
       res.status(401).json(NOT_FOUND_TOKEN);

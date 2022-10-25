@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import loginController from '../controllers/login.controller';
-import loginValidation from '../middlewares/login.validation';
+import loginValidation from '../middlewares/validations/login.middleware';
 import 'express-async-errors';
 import errorMiddleware from '../middlewares/error.middleware';
 
@@ -9,12 +9,12 @@ const {
   validateCredentials,
 } = loginValidation;
 
-const { login, authenticate } = loginController;
+const { login, validate } = loginController;
 
 const loginRoute = Router();
 
 loginRoute.post('/', validateFields, validateCredentials, login);
-loginRoute.get('/validate', authenticate);
+loginRoute.get('/validate', validate);
 loginRoute.use(errorMiddleware);
 
 export default loginRoute;

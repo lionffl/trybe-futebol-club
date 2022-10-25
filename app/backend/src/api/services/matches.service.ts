@@ -1,33 +1,23 @@
 import TeamModel from '../../database/models/TeamModel';
 import MatchModel from '../../database/models/MatchModel';
 
+const matches = {
+  include: [{
+    model: TeamModel,
+    as: 'teamHome',
+  },
+  {
+    model: TeamModel,
+    as: 'teamAway',
+  }],
+};
+
 const matchesService = {
   async getAll() {
-    const matches = await MatchModel.findAll({
-      include: [{
-        model: TeamModel,
-        as: 'teamHome',
-      },
-      {
-        model: TeamModel,
-        as: 'teamAway',
-      }],
-    });
-    return matches;
+    return MatchModel.findAll(matches);
   },
   async getByStatus(inProgress: boolean) {
-    const matches = await MatchModel.findAll({
-      include: [{
-        model: TeamModel,
-        as: 'teamHome',
-      },
-      {
-        model: TeamModel,
-        as: 'teamAway',
-      }],
-      where: { inProgress },
-    });
-    return matches;
+    return MatchModel.findAll(Object.assign(matches, { where: { inProgress } }));
   },
 };
 
