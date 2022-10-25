@@ -12,12 +12,10 @@ const matchesValidations: IMiddleware = {
     if (noQuery) {
       next();
     } else {
-      const { inProgress } = req.query;
-      if (typeof inProgress === 'string') {
-        const isMatchInProgress = helper.convertToBoolean(inProgress);
-        const matches = await matchesService.getByStatus(isMatchInProgress);
-        res.status(200).json(matches);
-      }
+      const queryString = req.query.inProgress as string;
+      const inProgress = helper.convertToBoolean(queryString);
+      const matches = await matchesService.getByStatus(inProgress);
+      res.status(200).json(matches);
     }
   },
 
