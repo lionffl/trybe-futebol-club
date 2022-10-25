@@ -16,8 +16,8 @@ const matchesValidations: IMiddleware = {
 
   async validateInvalidTeamMatch(_req, res, next) {
     const { teams } = res.locals;
-    const homeTeam = teamsService.getById(teams.homeTeam);
-    const awayTeam = teamsService.getById(teams.awayTeam);
+    const homeTeam = await teamsService.getById(teams.homeTeam);
+    const awayTeam = await teamsService.getById(teams.awayTeam);
     if (homeTeam === null || awayTeam === null) {
       res.status(404).json(TEAM_NOT_FOUND);
     } else {

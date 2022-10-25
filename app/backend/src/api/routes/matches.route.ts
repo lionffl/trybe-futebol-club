@@ -14,13 +14,11 @@ const matchesRoute = Router();
 matchesRoute.patch(
   '/:id/finish',
   authenticate,
-  validateOneTeamMatch,
-  validateInvalidTeamMatch,
   endMatchById,
 );
 matchesRoute.route('/')
   .get(getMatches)
-  .post(authenticate, createMatch);
+  .post(authenticate, validateOneTeamMatch, validateInvalidTeamMatch, createMatch);
 matchesRoute.use(errorMiddleware);
 
 export default matchesRoute;
