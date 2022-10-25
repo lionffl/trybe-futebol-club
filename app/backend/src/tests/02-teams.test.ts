@@ -66,7 +66,7 @@ context('4 - Route /teams/:id tests', () => {
       sinon.stub(TeamModel, 'findByPk').throws();
       httpResponse = await chai
         .request(app)
-        .get('/teams');
+        .get('/teams/500');
 
       should.equal(httpResponse.status, 500);
       expect(httpResponse.body).to.be.deep.equal(GENERIC_ERROR);

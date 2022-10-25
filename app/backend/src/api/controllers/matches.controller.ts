@@ -1,5 +1,5 @@
 import { GENERIC_ERROR } from '../../helpers/constants';
-import convertoToBoolean from '../../helpers/convertToBoolean';
+import * as helper from '../../helpers/functions';
 import IController from '../../interfaces/Controller';
 import matchesService from '../services/matches.service';
 
@@ -12,22 +12,18 @@ const matchesController: IController = {
         const matches = await matchesService.getAll();
         res.status(200).json(matches);
       } catch (error) {
-        if (error instanceof Error) {
-          res.status(500).json(GENERIC_ERROR);
-        }
+        res.status(500).json(GENERIC_ERROR);
       }
     }
   },
   async getMatchesByStatus(req, res) {
     const query = req.query.inProgress as string;
-    const isMatchInProgress = convertoToBoolean(query) as boolean;
+    const isMatchInProgress = helper.convertToBoolean(query) as boolean;
     try {
       const matches = await matchesService.getByStatus(isMatchInProgress);
       res.status(200).json(matches);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json(GENERIC_ERROR);
-      }
+      res.status(500).json(GENERIC_ERROR);
     }
   },
 };

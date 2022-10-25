@@ -14,7 +14,9 @@ import {
   emailMissingMock,
 } from './mocks/login.mock';
 import { Response } from 'superagent';
-import { BAD_REQUEST, INVALID_CREDENTIALS } from '../helpers/constants';
+import { BAD_REQUEST, GENERIC_ERROR, INVALID_CREDENTIALS, INVALID_TOKEN, NOT_FOUND_TOKEN } from '../helpers/constants';
+import * as helper from '../helpers/functions';
+import userService from '../api/services/login.service';
 
 chai.use(chaiHttp);
 
@@ -77,6 +79,17 @@ context('1 - Route /login tests', () => {
       should.equal(httpResponse.status, 401);
       expect(httpResponse.body).to.be.deep.equal(INVALID_CREDENTIALS)
     });
+
+    it('should response with 500 status code if an error is thrown', async () => {
+      sinon.stub(helper, 'getToken').throws();
+      httpResponse = await chai
+        .request(app)
+        .post('/login').send(validLoginMock);
+
+      should.equal(httpResponse.status, 500);
+      expect(httpResponse.body).to.be.deep.equal(GENERIC_ERROR);
+      (helper.getToken as sinon.SinonStub).restore();
+    });
   });
 });
 
@@ -98,10 +111,34 @@ context('2 - Route /login/validate tests', () => {
       httpResponse = await chai
         .request(app)
         .get('/login/validate')
-        .set('Authorization', 'hash')
+        .set('Authorization', 'token')
         .send();
       should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
+    });
+  })
+
+  describe('When the request is invalid, API', () => {
+    it('should response with 401 status code if Authorization Header is empty', async () => {
+      httpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', '')
+        .send();
+      should.equal(httpResponse.status, 401);
+      expect(httpResponse.body).to.be.deep.equal(NOT_FOUND_TOKEN);
+    });
+
+    it('should response with 401 status code if Authorization Header is provided with a invalid or expired token', async () => {
+      sinon.stub(userService, 'find').resolves(undefined);
+      httpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', 'expiredToken')
+        .send();
+      should.equal(httpResponse.status, 401);
+      expect(httpResponse.body).to.be.deep.equal(INVALID_TOKEN);
+      (userService.find as sinon.SinonStub).restore();
     });
   })
 });

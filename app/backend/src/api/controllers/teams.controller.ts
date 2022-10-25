@@ -8,9 +8,7 @@ const teamsController: IController = {
       const teams = await teamsService.getAll();
       res.status(200).json(teams);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json(GENERIC_ERROR);
-      }
+      res.status(500).json(GENERIC_ERROR);
     }
   },
 
@@ -23,9 +21,7 @@ const teamsController: IController = {
         res.status(200).json(team);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json(GENERIC_ERROR);
-      }
+      res.status(500).json(GENERIC_ERROR);
     }
   },
 };
