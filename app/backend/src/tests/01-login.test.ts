@@ -14,7 +14,7 @@ import {
   emailMissingMock,
 } from './mocks/login.mock';
 import { Response } from 'superagent';
-import { BAD_REQUEST, GENERIC_ERROR, INVALID_CREDENTIALS, INVALID_TOKEN, NOT_FOUND_TOKEN } from '../helpers/constants';
+import { BAD_REQUEST, GENERIC_ERROR, INVALID_CREDENTIALS, INVALID_TOKEN } from '../helpers/constants';
 import * as helper from '../helpers/functions';
 import userService from '../api/services/login.service';
 
@@ -124,7 +124,7 @@ context('2 - Route /login/validate tests', () => {
         .get('/login/validate')
         .set('Authorization', '')
       should.equal(httpResponse.status, 401);
-      expect(httpResponse.body).to.be.deep.equal(NOT_FOUND_TOKEN);
+      expect(httpResponse.body).to.be.deep.equal(INVALID_TOKEN);
     });
 
     it('should response with 401 status code if Authorization Header is provided with a invalid or expired token', async () => {

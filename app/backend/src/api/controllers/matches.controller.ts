@@ -2,6 +2,7 @@ import IMatchBody from '../../interfaces/Match';
 import * as helper from '../../helpers/functions';
 import IController from '../../interfaces/Controller';
 import matchesService from '../services/matches.service';
+import { MATCH_FINISHED } from '../../helpers/constants';
 
 const matchesController: IController = {
 
@@ -34,6 +35,12 @@ const matchesController: IController = {
       id, homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
     };
     res.status(201).json(response);
+  },
+
+  async endMatchById(req, res) {
+    const { id } = req.params;
+    await matchesService.endById(+id);
+    res.status(200).json(MATCH_FINISHED);
   },
 };
 

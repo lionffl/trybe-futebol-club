@@ -4,10 +4,11 @@ import 'express-async-errors';
 import errorMiddleware from '../middlewares/error.middleware';
 import authenticate from '../middlewares/auth.middleware';
 
-const { getMatches, createMatch } = matchesController;
+const { getMatches, createMatch, endMatchById } = matchesController;
 
 const matchesRoute = Router();
 
+matchesRoute.patch('/:id/finish', authenticate, endMatchById);
 matchesRoute.route('/')
   .get(getMatches)
   .post(authenticate, createMatch);

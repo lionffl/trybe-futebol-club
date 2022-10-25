@@ -23,6 +23,14 @@ const matchesService = {
   async create(match: IMatchBody) {
     return MatchModel.create(match);
   },
+
+  async endById(id: number) {
+    MatchModel.update({ inProgress: false }, {
+      where: {
+        id,
+      },
+    });
+  },
 };
 
 export default matchesService;

@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { INVALID_TOKEN, NOT_FOUND_TOKEN, SECRET } from '../../helpers/constants';
+import { INVALID_TOKEN, SECRET } from '../../helpers/constants';
 import * as helper from '../../helpers/functions';
 import IController from '../../interfaces/Controller';
 import userService from '../services/login.service';
@@ -15,7 +15,7 @@ const loginController: IController = {
   async validate(req, res) {
     const token = req.header('Authorization');
     if (!token) {
-      res.status(401).json(NOT_FOUND_TOKEN);
+      res.status(401).json(INVALID_TOKEN);
     } else {
       try {
         const decoded = jwt.verify(token, SECRET) as jwt.JwtPayload;
