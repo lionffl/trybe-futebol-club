@@ -16,7 +16,16 @@ const matches = {
 
 const matchesService = {
   async getAll() {
-    return MatchModel.findAll(matches);
+    return MatchModel.findAll({
+      include: [{
+        model: TeamModel,
+        as: 'teamHome',
+      },
+      {
+        model: TeamModel,
+        as: 'teamAway',
+      }],
+    });
   },
 
   async getByStatus(inProgress: boolean) {

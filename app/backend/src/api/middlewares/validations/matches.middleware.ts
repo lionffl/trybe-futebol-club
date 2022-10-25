@@ -8,13 +8,16 @@ import matchesService from '../../services/matches.service';
 const matchesValidations: IMiddleware = {
 
   async validadeQueryString(req, res, next) {
-    const query = req.query.inProgress as string;
-    if (query) {
-      const isMatchInProgress = helper.convertToBoolean(query) as boolean;
-      const matches = await matchesService.getByStatus(isMatchInProgress);
-      res.status(200).json(matches);
-    } else {
+    const noQuery = Object.values(req.query).length === 0;
+    if (noQuery) {
       next();
+    } else {
+      const { inProgress } = req.query;
+      if (typeof inProgress === 'string') {
+        const isMatchInProgress = helper.convertToBoolean(inProgress);
+        const matches = await matchesService.getByStatus(isMatchInProgress);
+        res.status(200).json(matches);
+      }
     }
   },
 
