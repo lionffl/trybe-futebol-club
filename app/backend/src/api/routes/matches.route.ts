@@ -7,7 +7,7 @@ import matchesValidation from '../middlewares/validations/matches.middleware';
 
 const { validateOneTeamMatch, validateInvalidTeamMatch } = matchesValidation;
 
-const { getMatches, createMatch, endMatchById } = matchesController;
+const { getMatches, createMatch, endMatchById, updateScore } = matchesController;
 
 const matchesRoute = Router();
 
@@ -16,9 +16,13 @@ matchesRoute.patch(
   authenticate,
   endMatchById,
 );
+
+matchesRoute.patch('/:id', updateScore);
+
 matchesRoute.route('/')
   .get(getMatches)
   .post(authenticate, validateOneTeamMatch, validateInvalidTeamMatch, createMatch);
+
 matchesRoute.use(errorMiddleware);
 
 export default matchesRoute;

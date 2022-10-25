@@ -1,8 +1,9 @@
-import IMatchBody from '../../interfaces/Match';
+import IMatchbody from '../../interfaces/Match';
 import * as helper from '../../helpers/functions';
 import IController from '../../interfaces/Controller';
 import matchesService from '../services/matches.service';
 import { MATCH_FINISHED } from '../../helpers/constants';
+import IScoreboard from '../../interfaces/Scoreboard';
 
 const matchesController: IController = {
 
@@ -23,14 +24,14 @@ const matchesController: IController = {
   },
 
   async createMatch(req, res) {
-    const body = req.body as IMatchBody;
+    const body = req.body as IMatchbody;
     const { id,
       homeTeam,
       awayTeam,
       homeTeamGoals,
       awayTeamGoals,
       inProgress,
-    } = await matchesService.create(Object.assign(body, { inProgress: true }));
+    } = await matchesService.create(body);
     const response = {
       id, homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
     };
@@ -41,6 +42,14 @@ const matchesController: IController = {
     const { id } = req.params;
     await matchesService.endById(+id);
     res.status(200).json(MATCH_FINISHED);
+  },
+
+  async updateScore(req, res) {
+    const { id } = req.params;
+    const scoreBoard = req.body as IScoreboard;
+    await matchesService.setScoreById(+id, scoreBoard);
+    const response = { scoreBoard: req.body };
+    res.status(200).json(response);
   },
 };
 
