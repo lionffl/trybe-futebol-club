@@ -22,8 +22,9 @@ const loginController: IController = {
         const user = await userService.find(decoded.data.email);
         if (!user) {
           res.status(401).json(INVALID_TOKEN);
+        } else {
+          res.status(200).json({ role: user.role });
         }
-        res.status(200).json({ role: user?.role });
       } catch (err) {
         res.status(401).json(INVALID_TOKEN);
       }

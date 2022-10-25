@@ -112,7 +112,6 @@ context('2 - Route /login/validate tests', () => {
         .request(app)
         .get('/login/validate')
         .set('Authorization', 'token')
-        .send();
       should.equal(httpResponse.status, 200);
       expect(httpResponse.body).to.be.deep.equal({ role: 'admin' });
     });
@@ -124,7 +123,6 @@ context('2 - Route /login/validate tests', () => {
         .request(app)
         .get('/login/validate')
         .set('Authorization', '')
-        .send();
       should.equal(httpResponse.status, 401);
       expect(httpResponse.body).to.be.deep.equal(NOT_FOUND_TOKEN);
     });
@@ -135,7 +133,6 @@ context('2 - Route /login/validate tests', () => {
         .request(app)
         .get('/login/validate')
         .set('Authorization', 'expiredToken')
-        .send();
       should.equal(httpResponse.status, 401);
       expect(httpResponse.body).to.be.deep.equal(INVALID_TOKEN);
       (userService.find as sinon.SinonStub).restore();

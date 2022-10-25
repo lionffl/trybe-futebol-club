@@ -2,7 +2,7 @@ import { compareSync } from 'bcryptjs';
 import ILogin from '../../interfaces/Login';
 import userService from '../services/login.service';
 import IMiddleware from '../../interfaces/Middleware';
-import { BAD_REQUEST, GENERIC_ERROR, INVALID_CREDENTIALS } from '../../helpers/constants';
+import { BAD_REQUEST, INVALID_CREDENTIALS } from '../../helpers/constants';
 
 const loginValidation: IMiddleware = {
 
@@ -17,16 +17,12 @@ const loginValidation: IMiddleware = {
 
   async validateCredentials(req, res, next) {
     const { email, password } = req.body as ILogin;
-    try {
-      const user = await userService.find(email);
-      if (user === null || !compareSync(password, user.password)) {
-        res.status(401).json(INVALID_CREDENTIALS);
-      } else {
-        res.locals.user = user;
-        next();
-      }
-    } catch (error) {
-      res.status(500).json(GENERIC_ERROR);
+    const user = await userService.find(email);
+    if (user === null || !compareSync(password, user.password)) {
+      res.status(401).json(INVALID_CREDENTIALS);
+    } else {
+      res.locals.user = user;
+      next();
     }
   },
 };
