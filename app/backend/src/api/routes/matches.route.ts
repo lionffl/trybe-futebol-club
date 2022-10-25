@@ -3,12 +3,21 @@ import matchesController from '../controllers/matches.controller';
 import 'express-async-errors';
 import errorMiddleware from '../middlewares/error.middleware';
 import authenticate from '../middlewares/auth.middleware';
+import matchesValidation from '../middlewares/validations/matches.middleware';
+
+const { validateOneTeamMatch, validateInvalidTeamMatch } = matchesValidation;
 
 const { getMatches, createMatch, endMatchById } = matchesController;
 
 const matchesRoute = Router();
 
-matchesRoute.patch('/:id/finish', authenticate, endMatchById);
+matchesRoute.patch(
+  '/:id/finish',
+  authenticate,
+  validateOneTeamMatch,
+  validateInvalidTeamMatch,
+  endMatchById,
+);
 matchesRoute.route('/')
   .get(getMatches)
   .post(authenticate, createMatch);

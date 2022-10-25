@@ -17,9 +17,11 @@ const matchesService = {
   async getAll() {
     return MatchModel.findAll(matches);
   },
+
   async getByStatus(inProgress: boolean) {
     return MatchModel.findAll(Object.assign(matches, { where: { inProgress } }));
   },
+
   async create(match: IMatchBody) {
     return MatchModel.create(match);
   },
