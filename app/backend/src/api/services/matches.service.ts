@@ -1,5 +1,6 @@
 import TeamModel from '../../database/models/TeamModel';
 import MatchModel from '../../database/models/MatchModel';
+import IMatchBody from '../../interfaces/Match';
 
 const matches = {
   include: [{
@@ -18,6 +19,9 @@ const matchesService = {
   },
   async getByStatus(inProgress: boolean) {
     return MatchModel.findAll(Object.assign(matches, { where: { inProgress } }));
+  },
+  async create(match: IMatchBody) {
+    return MatchModel.create(match);
   },
 };
 

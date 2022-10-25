@@ -1,3 +1,4 @@
+import IMatchBody from '../../interfaces/Match';
 import * as helper from '../../helpers/functions';
 import IController from '../../interfaces/Controller';
 import matchesService from '../services/matches.service';
@@ -18,6 +19,21 @@ const matchesController: IController = {
     const isMatchInProgress = helper.convertToBoolean(query) as boolean;
     const matches = await matchesService.getByStatus(isMatchInProgress);
     res.status(200).json(matches);
+  },
+
+  async createMatch(req, res) {
+    const body = req.body as IMatchBody;
+    const { id,
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress,
+    } = await matchesService.create(Object.assign(body, { inProgress: true }));
+    const response = {
+      id, homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress,
+    };
+    res.status(201).json(response);
   },
 };
 

@@ -4,7 +4,7 @@ import 'express-async-errors';
 import errorMiddleware from '../middlewares/error.middleware';
 import authenticate from '../middlewares/auth.middleware';
 
-const { getMatches } = matchesController;
+const { getMatches, createMatch } = matchesController;
 
 const matchesRoute = Router();
 
