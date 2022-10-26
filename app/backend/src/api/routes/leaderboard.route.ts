@@ -5,9 +5,10 @@ import errorMiddleware from '../middlewares/error.middleware';
 
 const leaderboardRoute = Router();
 
-const { getAllTeamsFromHome } = leaderboardController;
+const { getHomeTeamLeaderboard, getAwayTeamLeaderboard } = leaderboardController;
 
-leaderboardRoute.get('/home', getAllTeamsFromHome);
+leaderboardRoute.get('/home', getHomeTeamLeaderboard);
+leaderboardRoute.get('/away', getAwayTeamLeaderboard);
 leaderboardRoute.use(errorMiddleware);
 
 export default leaderboardRoute;

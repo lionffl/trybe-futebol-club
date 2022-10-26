@@ -4,7 +4,7 @@ import teamsService from './teams.service';
 import { IRawTeamperformance } from '../../interfaces/Teamperformance';
 
 const leaderboardService = {
-  async getTeams(homeOrAway: string) {
+  async getLeaderboardFrom(homeOrAway: string) {
     const inProgress = false;
     const matches = await matchesService.getByStatus(inProgress);
     const teams = await teamsService.getAll();
