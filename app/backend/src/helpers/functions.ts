@@ -1,5 +1,6 @@
 import { sign, SignOptions } from 'jsonwebtoken';
-import { SECRET } from './constants';
+import MatchModel from '../database/models/MatchModel';
+import { POINTS_PER_DRAW, POINTS_PER_WIN, SECRET } from './constants';
 
 const jwtConfig: SignOptions = {
   expiresIn: '15d',
@@ -14,4 +15,17 @@ export function getToken(email: string, id: number) {
 export function convertToBoolean(string: string): boolean {
   if (string === 'true') return true;
   return false;
+}
+
+export function getTotalPointsByTeamId(matches: MatchModel[], id: number, isHome: boolean) {
+  if (isHome) {
+    const matchesPlayedByTeam = matches.filter((match) => +match.homeTeam === id);
+    const wins = matchesPlayedByTeam.filter((match) =>
+      match.homeTeamGoals > match.awayTeamGoals);
+    const draws = matchesPlayedByTeam.filter((match) =>
+      match.homeTeamGoals === match.awayTeamGoals);
+    const points = (wins.length * POINTS_PER_WIN) + (draws.length * POINTS_PER_DRAW);
+    return points;
+  }
+  return 'a';
 }

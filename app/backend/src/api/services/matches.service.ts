@@ -3,17 +3,6 @@ import MatchModel from '../../database/models/MatchModel';
 import IMatchbody from '../../interfaces/Match';
 import IScoreboard from '../../interfaces/Scoreboard';
 
-const matches = {
-  include: [{
-    model: TeamModel,
-    as: 'teamHome',
-  },
-  {
-    model: TeamModel,
-    as: 'teamAway',
-  }],
-};
-
 const matchesService = {
   async getAll() {
     return MatchModel.findAll({
@@ -29,7 +18,15 @@ const matchesService = {
   },
 
   async getByStatus(inProgress: boolean) {
-    return MatchModel.findAll(Object.assign(matches, { where: { inProgress } }));
+    return MatchModel.findAll({ where: { inProgress },
+      include: [{
+        model: TeamModel,
+        as: 'teamHome',
+      },
+      {
+        model: TeamModel,
+        as: 'teamAway',
+      }] });
   },
 
   async create(match: IMatchbody) {

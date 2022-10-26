@@ -8,3 +8,5 @@ export const MATCH_FINISHED = { message: 'Finished' };
 export const SAME_TEAM_ERROR = {
   message: 'It is not possible to create a match with two equal teams' };
 export const TEAM_NOT_FOUND = { message: 'There is no team with such id!' };
+export const POINTS_PER_WIN = 3;
+export const POINTS_PER_DRAW = 1;
