@@ -26,6 +26,13 @@ function getGoalsReport(matches: MatchModel[], team1: Index, team2: Index) {
   return { goalsFavor, goalsOwn };
 }
 
+function createLeaderboard(rawLeaderboard: ITeamperformance[]) {
+  const leaderboard = rawLeaderboard.sort((a, b) => b.totalPoints - a.totalPoints
+  || b.totalVictories - a.totalVictories || b.goalsBalance - a.goalsBalance
+    || b.goalsFavor - a.goalsFavor || b.goalsOwn - a.goalsOwn);
+  return leaderboard;
+}
+
 export function getToken(email: string, id: number) {
   const token = sign({ data: { email, id } }, SECRET, jwtConfig);
   return token;
@@ -56,7 +63,7 @@ export function getPerformanceByTeamId(matches: MatchModel[], id: number, homeOr
 }
 
 export function generateLeaderboard(performanceReport: IRawTeamperformance[]) {
-  const leaderboard: ITeamperformance[] = [];
+  const rawLeaderboard: ITeamperformance[] = [];
 
   performanceReport.forEach((report) => {
     const teamReport = {
@@ -71,7 +78,9 @@ export function generateLeaderboard(performanceReport: IRawTeamperformance[]) {
       goalsBalance: report.goalsReport.goalsFavor - report.goalsReport.goalsOwn,
       efficiency: parseFloat(((report.points / (report.games * 3)) * 100).toFixed(2)),
     };
-    leaderboard.push(teamReport);
+    rawLeaderboard.push(teamReport);
   });
+
+  const leaderboard = createLeaderboard(rawLeaderboard);
   return leaderboard;
 }
