@@ -29,11 +29,9 @@ const matchesController: IController = {
 
   async updateScore(req, res) {
     const { id } = req.params;
-    const score = req.body;
     const scoreBoard = req.body as IScoreboard;
     await matchesService.setScoreById(+id, scoreBoard);
-    const response = { scoreBoard: score };
-    res.status(200).json(response);
+    res.status(200).json({ scoreBoard });
   },
 };
 
