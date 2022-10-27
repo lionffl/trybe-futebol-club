@@ -1,4 +1,4 @@
-export interface IRawTeamperformance {
+export interface IDataTeamReport {
   name: string,
   points: number;
   wins: number;
@@ -10,7 +10,7 @@ export interface IRawTeamperformance {
   };
 }
 
-export interface ITeamperformance {
+export interface ITeamReport {
   name: string,
   totalPoints: number;
   totalGames: number;

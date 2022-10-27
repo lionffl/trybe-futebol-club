@@ -1,5 +1,5 @@
 import { sign, SignOptions } from 'jsonwebtoken';
-import { ITeamperformance, IRawTeamperformance } from '../interfaces/Teamperformance';
+import { ITeamReport, IDataTeamReport } from '../interfaces/TeamReport';
 import { Index } from '../api/types/Index';
 import MatchModel from '../database/models/MatchModel';
 import { POINTS_PER_DRAW, POINTS_PER_WIN, SECRET } from './constants';
@@ -36,14 +36,14 @@ export function getGoalsReport(matches: MatchModel[], team1: Index, team2: Index
   return { goalsFavor, goalsOwn };
 }
 
-function createLeaderboard(rawLeaderboard: ITeamperformance[]) {
-  const leaderboard = rawLeaderboard.sort((a, b) => b.totalPoints - a.totalPoints
+export function createLeaderboard(teamsReport: ITeamReport[]) {
+  const leaderboard = teamsReport.sort((a, b) => b.totalPoints - a.totalPoints
   || b.totalVictories - a.totalVictories || b.goalsBalance - a.goalsBalance
     || b.goalsFavor - a.goalsFavor || b.goalsOwn - a.goalsOwn);
   return leaderboard;
 }
 
-function sumPerformances(homeTeam: ITeamperformance, awayTeam: ITeamperformance) {
+export function sumPerformances(homeTeam: ITeamReport, awayTeam: ITeamReport) {
   const performance = { name: homeTeam.name,
     totalPoints: homeTeam.totalPoints + awayTeam.totalPoints,
     totalGames: homeTeam.totalGames + awayTeam.totalGames,
@@ -67,10 +67,13 @@ export function getPerformanceByTeamId(matches: MatchModel[], id: number, homeOr
   const team2Goals: Index = team1Goals === 'homeTeamGoals' ? 'awayTeamGoals' : 'homeTeamGoals';
 
   const matchesPlayedByTeam = matches.filter((match) => +match[index] === id);
+
   const wins = matchesPlayedByTeam.filter((match) =>
     +match[team1Goals] > +match[team2Goals]);
+
   const draws = matchesPlayedByTeam.filter((match) =>
     +match[team1Goals] === +match[team2Goals]);
+
   const points = (wins.length * POINTS_PER_WIN) + (draws.length * POINTS_PER_DRAW);
 
   const goalsReport = getGoalsReport(matchesPlayedByTeam, team1Goals, team2Goals);
@@ -80,8 +83,8 @@ export function getPerformanceByTeamId(matches: MatchModel[], id: number, homeOr
   };
 }
 
-export function generateLeaderboard(performanceReport: IRawTeamperformance[]) {
-  const rawLeaderboard: ITeamperformance[] = [];
+export function generateLeaderboard(performanceReport: IDataTeamReport[]) {
+  const teamsReport: ITeamReport[] = [];
 
   performanceReport.forEach((report) => {
     const teamReport = {
@@ -96,25 +99,25 @@ export function generateLeaderboard(performanceReport: IRawTeamperformance[]) {
       goalsBalance: report.goalsReport.goalsFavor - report.goalsReport.goalsOwn,
       efficiency: parseFloat(((report.points / (report.games * 3)) * 100).toFixed(2)),
     };
-    rawLeaderboard.push(teamReport);
+    teamsReport.push(teamReport);
   });
 
-  const leaderboard = createLeaderboard(rawLeaderboard);
+  const leaderboard = createLeaderboard(teamsReport);
   return leaderboard;
 }
 
-export function mergeLeaderboards(hTeamLb: ITeamperformance[], aTeamLb: ITeamperformance[]) {
-  const rawLeaderboard: ITeamperformance[] = [];
+export function mergeLeaderboards(hTeamLb: ITeamReport[], aTeamLb: ITeamReport[]) {
+  const teamsReport: ITeamReport[] = [];
   for (let i = 0; i < hTeamLb.length; i += 1) {
     for (let j = 0; j < aTeamLb.length; j += 1) {
       const homeTeam = hTeamLb[i];
       const awayTeam = aTeamLb[j];
       if (homeTeam.name === awayTeam.name) {
         const teamPerformance = sumPerformances(homeTeam, awayTeam);
-        rawLeaderboard.push(teamPerformance);
+        teamsReport.push(teamPerformance);
       }
     }
   }
-  const leaderboard = createLeaderboard(rawLeaderboard);
+  const leaderboard = createLeaderboard(teamsReport);
   return leaderboard;
 }
