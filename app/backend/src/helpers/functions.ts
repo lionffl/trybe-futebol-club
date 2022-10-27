@@ -61,12 +61,12 @@ export function sumPerformances(homeTeam: ITeamReport, awayTeam: ITeamReport) {
   return performance;
 }
 
-export function getPerformanceByTeamId(matches: MatchModel[], id: number, homeOrAway: string) {
+export function getPerformanceByTeamId(matches: MatchModel[], teamId: number, homeOrAway: string) {
   const index = homeOrAway as Index;
   const team1Goals = `${homeOrAway}Goals` as Index;
   const team2Goals: Index = team1Goals === 'homeTeamGoals' ? 'awayTeamGoals' : 'homeTeamGoals';
 
-  const matchesPlayedByTeam = matches.filter((match) => +match[index] === id);
+  const matchesPlayedByTeam = matches.filter((match) => +match[index] === teamId);
 
   const wins = matchesPlayedByTeam.filter((match) =>
     +match[team1Goals] > +match[team2Goals]);
