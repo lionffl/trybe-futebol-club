@@ -8,7 +8,7 @@ import {
   matchesDoneMock, matchesInProgressMock, matchesMock
 } from './mocks/matches.mock';
 import { Response } from 'superagent';
-import { GENERIC_ERROR, NOT_FOUND_ERROR } from '../helpers/constants';
+import { GENERIC_ERROR } from '../helpers/constants';
 
 chai.use(chaiHttp);
 

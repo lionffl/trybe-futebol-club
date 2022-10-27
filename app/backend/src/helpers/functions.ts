@@ -19,7 +19,7 @@ export function convertToBoolean(string: string): boolean {
   return false;
 }
 
-function getGoalsReport(matches: MatchModel[], team1: Index, team2: Index) {
+export function getGoalsReport(matches: MatchModel[], team1: Index, team2: Index) {
   const team1Goals: number[] = [];
   const team2Goals: number[] = [];
 
