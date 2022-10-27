@@ -9,6 +9,16 @@ const jwtConfig: SignOptions = {
   algorithm: 'HS256',
 };
 
+export function getToken(email: string, id: number) {
+  const token = sign({ data: { email, id } }, SECRET, jwtConfig);
+  return token;
+}
+
+export function convertToBoolean(string: string): boolean {
+  if (string === 'true') return true;
+  return false;
+}
+
 function getGoalsReport(matches: MatchModel[], team1: Index, team2: Index) {
   const team1Goals: number[] = [];
   const team2Goals: number[] = [];
@@ -33,14 +43,22 @@ function createLeaderboard(rawLeaderboard: ITeamperformance[]) {
   return leaderboard;
 }
 
-export function getToken(email: string, id: number) {
-  const token = sign({ data: { email, id } }, SECRET, jwtConfig);
-  return token;
-}
-
-export function convertToBoolean(string: string): boolean {
-  if (string === 'true') return true;
-  return false;
+function sumPerformances(homeTeam: ITeamperformance, awayTeam: ITeamperformance) {
+  const performance = { name: homeTeam.name,
+    totalPoints: homeTeam.totalPoints + awayTeam.totalPoints,
+    totalGames: homeTeam.totalGames + awayTeam.totalGames,
+    totalVictories: homeTeam.totalVictories + awayTeam.totalVictories,
+    totalDraws: homeTeam.totalDraws + awayTeam.totalDraws,
+    totalLosses: homeTeam.totalLosses + awayTeam.totalLosses,
+    goalsFavor: homeTeam.goalsFavor + awayTeam.goalsFavor,
+    goalsOwn: homeTeam.goalsOwn + awayTeam.goalsOwn,
+    goalsBalance: homeTeam.goalsBalance + awayTeam.goalsBalance,
+    efficiency: 0,
+  };
+  performance.efficiency = parseFloat(
+    ((performance.totalPoints / (performance.totalGames * 3)) * 100).toFixed(2),
+  );
+  return performance;
 }
 
 export function getPerformanceByTeamId(matches: MatchModel[], id: number, homeOrAway: string) {
@@ -81,6 +99,22 @@ export function generateLeaderboard(performanceReport: IRawTeamperformance[]) {
     rawLeaderboard.push(teamReport);
   });
 
+  const leaderboard = createLeaderboard(rawLeaderboard);
+  return leaderboard;
+}
+
+export function mergeLeaderboards(hTeamLb: ITeamperformance[], aTeamLb: ITeamperformance[]) {
+  const rawLeaderboard: ITeamperformance[] = [];
+  for (let i = 0; i < hTeamLb.length; i += 1) {
+    for (let j = 0; j < aTeamLb.length; j += 1) {
+      const homeTeam = hTeamLb[i];
+      const awayTeam = aTeamLb[j];
+      if (homeTeam.name === awayTeam.name) {
+        const teamPerformance = sumPerformances(homeTeam, awayTeam);
+        rawLeaderboard.push(teamPerformance);
+      }
+    }
+  }
   const leaderboard = createLeaderboard(rawLeaderboard);
   return leaderboard;
 }

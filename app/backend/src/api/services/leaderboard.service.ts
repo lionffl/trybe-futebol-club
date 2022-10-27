@@ -16,6 +16,13 @@ const leaderboardService = {
     const leaderboard = helper.generateLeaderboard(performanceReport);
     return leaderboard;
   },
+
+  async getLeaderboard() {
+    const homeLeaderboard = await this.getLeaderboardFrom('homeTeam');
+    const awayLeaderboard = await this.getLeaderboardFrom('awayTeam');
+    const leaderboard = helper.mergeLeaderboards(homeLeaderboard, awayLeaderboard);
+    return leaderboard;
+  },
 };
 
 export default leaderboardService;
