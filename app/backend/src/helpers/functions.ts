@@ -1,6 +1,6 @@
 import { sign, SignOptions } from 'jsonwebtoken';
 import { ITeamReport, IDataTeamReport } from '../interfaces/TeamReport';
-import { Index } from '../api/types/Index';
+import { Index } from '../types/Index';
 import MatchModel from '../database/models/MatchModel';
 import { POINTS_PER_DRAW, POINTS_PER_WIN, SECRET } from './constants';
 
