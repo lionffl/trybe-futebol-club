@@ -1,5 +1,5 @@
 # README
-A RESTful API using Node, Express, Sequelize, bcrypt, JWT and built with layered architecture.
+A RESTful API using Node, Express, Sequelize, bcrypt, JWT. In this project, you will find the backend part of TFC, a sportslike website about soccer matches and leaderboards.
 
 # Endpoints
 * /login to login as admin or user
