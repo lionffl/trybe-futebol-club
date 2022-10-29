@@ -1,5 +1,5 @@
 # README
-A RESTful API using Node, Express, Sequelize, bcrypt, JWT. In this project, you will find the backend part of TFC, a sportslike website about soccer matches and leaderboards.
+A RESTful API using TypeScript, Node, Express, Sequelize, bcrypt, JWT and for tests were used Chai and Sinon. In this project, you will find the backend part of TFC, a sportslike website about soccer matches and leaderboards.
 
 # Endpoints
 * /login to login as admin or user
@@ -16,6 +16,8 @@ A RESTful API using Node, Express, Sequelize, bcrypt, JWT. In this project, you 
 * Sequelize 6.3.4 / mysql2 2.1
 * JWT 8.5.1
 * bcrypt 2.4.3
+* chai 4.3
+* sinon 13
 
 # Usage and basic commands
 1) Clone the repository to your local: 
