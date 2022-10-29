@@ -19,7 +19,7 @@ A RESTful API using Node, Express, Sequelize, bcrypt, JWT and built with layered
 
 # Usage and basic commands
 1) Clone the repository to your local: 
-`git clone git@github.com:lionffl/blogsapi.git`
+`git clone git@github.com:lionffl/trybe-futebol-club.git`
 2) Installing dependecies:
 `npm install`
 3) Config the enviroment by renaming `env.example` to `.env` and setting the variables
