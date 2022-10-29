@@ -1,5 +1,5 @@
 # README
-A RESTful API using TypeScript, Node, Express, Sequelize, bcrypt, JWT and for tests were used Chai and Sinon. In this project, you will find the backend part of TFC, a sportslike website about soccer matches and leaderboards.
+A RESTful API using TypeScript, Node, Express, Sequelize, bcrypt, JWT and for tests were used Chai and Sinon. In this project, you will find the backend of TFC, a sportslike website about soccer matches and leaderboards.
 
 # Endpoints
 * /login to login as admin or user
